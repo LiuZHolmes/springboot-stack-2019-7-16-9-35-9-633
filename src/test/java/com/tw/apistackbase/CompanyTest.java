@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -103,6 +104,18 @@ public class CompanyTest {
                 // then
                 .andExpect(content().json(
                         "[{\"companyID\":1}]"
+                ));
+    }
+
+    @Test
+    public void should_return_a_company_when_post_a_company() throws Exception {
+        // given
+
+        //when
+        mockMvc.perform(post("/companies").content("[]"))
+                // then
+                .andExpect(content().json(
+                        "{\"companyID\":1}"
                 ));
     }
 }

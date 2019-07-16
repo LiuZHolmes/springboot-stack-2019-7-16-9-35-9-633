@@ -5,9 +5,7 @@ import com.tw.apistackbase.Employee;
 import com.tw.apistackbase.Exception.CompanyNotFoundException;
 import com.tw.apistackbase.Repository.CompanyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import sun.jvm.hotspot.debugger.Page;
 
 import java.util.List;
@@ -45,11 +43,19 @@ public class CompanyController {
         else throw new CompanyNotFoundException();
     }
 
-    @GetMapping(params = { "/companies?page={page}&pageSize={pageSize}" })
+    @GetMapping("/companies?page={page}&pageSize={pageSize}" )
     public List<Company> listCompaniesPageByPage(@PathVariable int page,@PathVariable int size) {
         return companyRepository.getCompanies()
                 .stream()
                 .skip((page - 1)*size)
                 .limit(size).collect(Collectors.toList());
+    }
+
+    @PostMapping("/companies")
+    public Company createCompany(@RequestBody String request) {
+        Company company = new Company();
+        company.setCompanyID(1);
+        companyRepository.getCompanies().add(company);
+        return company;
     }
 }
