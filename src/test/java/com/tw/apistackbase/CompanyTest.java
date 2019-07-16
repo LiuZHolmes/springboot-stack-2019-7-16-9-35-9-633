@@ -89,4 +89,20 @@ public class CompanyTest {
                         "[{\"employeeID\":1}]"
                 ));
     }
+
+    @Test
+    public void should_return_paged_company_list_when_get_companies_page_by_page() throws Exception {
+        // given
+        List<Company> companies = new ArrayList<>();
+        Company company = new Company();
+        company.setCompanyID(1);
+        companies.add(company);
+        when(companyRepository.getCompanies()).thenReturn(companies);
+        //when
+        mockMvc.perform(get("/companies?page=1&pageSize=5"))
+                // then
+                .andExpect(content().json(
+                        "[{\"companyID\":1}]"
+                ));
+    }
 }

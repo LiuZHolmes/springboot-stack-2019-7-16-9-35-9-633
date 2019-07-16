@@ -8,9 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
+import sun.jvm.hotspot.debugger.Page;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 public class CompanyController {
@@ -41,5 +43,13 @@ public class CompanyController {
                 .findFirst();
         if (optionalCompany.isPresent()) return optionalCompany.get().getEmployeeRepository().getEmployees();
         else throw new CompanyNotFoundException();
+    }
+
+    @GetMapping(params = { "/companies?page={page}&pageSize={pageSize}" })
+    public List<Company> listCompaniesPageByPage(@PathVariable int page,@PathVariable int size) {
+        return companyRepository.getCompanies()
+                .stream()
+                .skip((page - 1)*size)
+                .limit(size).collect(Collectors.toList());
     }
 }
