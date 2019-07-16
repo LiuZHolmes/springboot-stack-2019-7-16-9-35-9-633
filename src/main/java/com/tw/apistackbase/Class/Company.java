@@ -1,5 +1,8 @@
 package com.tw.apistackbase.Class;
 
+import com.tw.apistackbase.Repository.EmployeeRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+
 public class Company {
 
     public long getCompanyID() {
@@ -11,4 +14,15 @@ public class Company {
     }
 
     private long companyID;
+
+    public EmployeeRepository getEmployeeRepository() {
+        return employeeRepository;
+    }
+
+    public void setEmployeeRepository(EmployeeRepository employeeRepository) {
+        this.employeeRepository = employeeRepository;
+    }
+
+    @Autowired
+    private EmployeeRepository employeeRepository;
 }

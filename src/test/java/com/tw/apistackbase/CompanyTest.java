@@ -3,6 +3,7 @@ package com.tw.apistackbase;
 import com.tw.apistackbase.Class.Company;
 import com.tw.apistackbase.Controller.CompanyController;
 import com.tw.apistackbase.Repository.CompanyRepository;
+import com.tw.apistackbase.Repository.EmployeeRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,10 @@ public class CompanyTest {
 
     @MockBean
     private CompanyRepository companyRepository;
+
+
+    @MockBean
+    private EmployeeRepository employeeRepository;
 
     @Test
     public void should_return_company_list_when_get_companies() throws Exception {
@@ -62,4 +67,26 @@ public class CompanyTest {
                 ));
     }
 
+    @Test
+    public void should_return_employees_list_when_get_company_employees() throws Exception {
+        // given
+        List<Company> companies = new ArrayList<>();
+        List<Employee> employees = new ArrayList<>();
+        Company company = new Company();
+        Employee employee = new Employee();
+        company.setCompanyID(1);
+        employee.setEmployeeID(1);
+        company.setEmployeeRepository(employeeRepository);
+        companies.add(company);
+        employees.add(employee);
+
+        when(companyRepository.getCompanies()).thenReturn(companies);
+        when(employeeRepository.getEmployees()).thenReturn(employees);
+        //when
+        mockMvc.perform(get("/companies/1/employees"))
+                // then
+                .andExpect(content().json(
+                        "[{\"employeeID\":1}]"
+                ));
+    }
 }
