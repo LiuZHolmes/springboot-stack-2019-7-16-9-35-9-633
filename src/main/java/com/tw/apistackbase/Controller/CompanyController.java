@@ -5,6 +5,7 @@ import com.tw.apistackbase.Employee;
 import com.tw.apistackbase.Exception.CompanyNotFoundException;
 import com.tw.apistackbase.Repository.CompanyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import sun.jvm.hotspot.debugger.Page;
 
@@ -72,5 +73,15 @@ public class CompanyController {
             company.setName(newCompany.getName());
             return company;
         } else throw new CompanyNotFoundException();
+    }
+
+    @DeleteMapping("/companies/{companyID}")
+    public ResponseEntity deleteCompany(@PathVariable long companyID) {
+        companyRepository.setCompanies(companyRepository.getCompanies()
+                .stream()
+                .filter(x -> x.getCompanyID() != companyID)
+                .collect(Collectors.toList())
+        );
+        return ResponseEntity.ok().build();
     }
 }

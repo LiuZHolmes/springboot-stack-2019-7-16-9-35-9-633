@@ -12,6 +12,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
@@ -138,5 +139,19 @@ public class CompanyTest {
                         "{\"companyID\": 1,\n" +
                                 "    \"name\": \"company1\"}"
                 ));
+    }
+
+    @Test
+    public void should_delete_a_company_when_delete_it() throws Exception {
+        // given
+        List<Company> companies = new ArrayList<>();
+        Company company = new Company();
+        company.setCompanyID(1);
+        companies.add(company);
+        when(companyRepository.getCompanies()).thenReturn(companies);
+        //when
+        mockMvc.perform(delete("/companies/1"))
+                // then
+                .andExpect(status().isOk());
     }
 }
