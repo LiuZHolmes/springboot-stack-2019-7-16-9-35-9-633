@@ -53,4 +53,18 @@ public class EmployeeController {
         employeeRepository.getEmployees().add(employee);
         return employee;
     }
+
+    @PutMapping("/employees/{employeeID}")
+    public Employee updateEmployee(@RequestBody Employee newEmployee, @PathVariable long employeeID) throws EmployeeNotFoundException {
+
+        Optional<Employee> optionalEmployee = employeeRepository.getEmployees()
+                .stream()
+                .filter(x -> x.getEmployeeID() == employeeID)
+                .findFirst();
+        if (optionalEmployee.isPresent()) {
+            Employee employee = optionalEmployee.get();
+            employee.setGender(newEmployee.getGender());
+            return employee;
+        } else throw new EmployeeNotFoundException();
+    }
 }
