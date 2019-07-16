@@ -4,6 +4,7 @@ import com.tw.apistackbase.Employee;
 import com.tw.apistackbase.Exception.EmployeeNotFoundException;
 import com.tw.apistackbase.Repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -66,5 +67,15 @@ public class EmployeeController {
             employee.setGender(newEmployee.getGender());
             return employee;
         } else throw new EmployeeNotFoundException();
+    }
+
+    @DeleteMapping("/employees/{employeeID}")
+    public ResponseEntity deleteEmployee(@PathVariable long employeeID) {
+        employeeRepository.setEmployees(employeeRepository.getEmployees()
+                .stream()
+                .filter(x -> x.getEmployeeID() != employeeID)
+                .collect(Collectors.toList())
+        );
+        return ResponseEntity.ok().build();
     }
 }

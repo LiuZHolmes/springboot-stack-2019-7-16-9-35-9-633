@@ -18,6 +18,7 @@ import java.util.List;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(EmployeeController.class)
@@ -125,5 +126,19 @@ public class EmployeeTest {
                         "{\"employeeID\": 1,\n" +
                                 "    \"gender\": \"male\"}"
                 ));
+    }
+
+    @Test
+    public void should_delete_a_employee_when_delete_it() throws Exception {
+        // given
+        List<Employee> employees = new ArrayList<>();
+        Employee employee = new Employee();
+        employee.setEmployeeID(1);
+        employees.add(employee);
+        when(employeeRepository.getEmployees()).thenReturn(employees);
+        //when
+        mockMvc.perform(delete("/employees/1"))
+                // then
+                .andExpect(status().isOk());
     }
 }
