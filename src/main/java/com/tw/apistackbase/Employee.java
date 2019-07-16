@@ -5,8 +5,8 @@ public class Employee {
         return employeeID;
     }
 
-    public void setEmployeeID(long companyID) {
-        this.employeeID = companyID;
+    public void setEmployeeID(long employeeID) {
+        this.employeeID = employeeID;
     }
 
     private long employeeID;
