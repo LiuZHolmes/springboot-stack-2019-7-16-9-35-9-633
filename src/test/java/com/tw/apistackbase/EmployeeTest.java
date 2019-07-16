@@ -42,4 +42,20 @@ public class EmployeeTest {
                         "[{\"employeeID\":1}]"
                 ));
     }
+
+    @Test
+    public void should_return_a_employee_when_get_a_employee_by_id() throws Exception {
+        // given
+        List<Employee> employees = new ArrayList<>();
+        Employee employee = new Employee();
+        employee.setEmployeeID(1);
+        employees.add(employee);
+        when(employeeRepository.getEmployees()).thenReturn(employees);
+        //when
+        mockMvc.perform(get("/employees/1"))
+                // then
+                .andExpect(content().json(
+                        "{\"employeeID\":1}"
+                ));
+    }
 }

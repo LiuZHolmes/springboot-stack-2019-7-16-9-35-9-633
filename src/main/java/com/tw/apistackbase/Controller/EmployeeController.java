@@ -1,12 +1,15 @@
 package com.tw.apistackbase.Controller;
 
 import com.tw.apistackbase.Employee;
+import com.tw.apistackbase.Exception.EmployeeNotFoundException;
 import com.tw.apistackbase.Repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class EmployeeController {
@@ -16,5 +19,15 @@ public class EmployeeController {
     @GetMapping("/employees")
     public List<Employee> listCompanies() {
         return employeeRepository.getEmployees();
+    }
+
+    @GetMapping("/employees/{employeeID}")
+    public Employee findCompanyByID(@PathVariable long employeeID) throws EmployeeNotFoundException {
+        Optional<Employee> optionalEmployee = employeeRepository.getEmployees()
+                .stream()
+                .filter(x -> x.getEmployeeID() == employeeID)
+                .findFirst();
+        if (optionalEmployee.isPresent()) return optionalEmployee.get();
+        else throw new EmployeeNotFoundException();
     }
 }
