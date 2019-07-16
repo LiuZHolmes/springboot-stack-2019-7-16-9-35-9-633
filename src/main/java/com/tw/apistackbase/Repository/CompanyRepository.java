@@ -8,7 +8,11 @@ import java.util.List;
 
 @Component
 public class CompanyRepository {
-    private List<Company> companies = new ArrayList<>();
+    public CompanyRepository() {
+        this.companies = new ArrayList<>();
+    }
+
+    private List<Company> companies;
 
     public List<Company> getCompanies() {
         return companies;

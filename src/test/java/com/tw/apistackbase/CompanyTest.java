@@ -1,14 +1,13 @@
 package com.tw.apistackbase;
 
 import com.tw.apistackbase.Class.Company;
+import com.tw.apistackbase.Controller.CompanyController;
 import com.tw.apistackbase.Repository.CompanyRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 
@@ -22,8 +21,7 @@ import java.util.List;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest
-@AutoConfigureMockMvc
+@WebMvcTest(CompanyController.class)
 public class CompanyTest {
 
     @Autowired
@@ -44,7 +42,7 @@ public class CompanyTest {
         mockMvc.perform(get("/companies"))
                 // then
                 .andExpect(content().json(
-                        "[{id:1}]"
+                        "[{\"companyID\":1}]"
                 ));
     }
 
