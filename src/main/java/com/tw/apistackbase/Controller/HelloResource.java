@@ -1,4 +1,4 @@
-package com.tw.apistackbase.controller;
+package com.tw.apistackbase.Controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
