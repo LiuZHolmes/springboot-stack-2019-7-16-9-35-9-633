@@ -46,4 +46,20 @@ public class CompanyTest {
                 ));
     }
 
+    @Test
+    public void should_return_a_company_when_get_a_company_by_id() throws Exception {
+        // given
+        List<Company> companies = new ArrayList<>();
+        Company company = new Company();
+        company.setCompanyID(1);
+        companies.add(company);
+        when(companyRepository.getCompanies()).thenReturn(companies);
+        //when
+        mockMvc.perform(get("/companies/1"))
+                // then
+                .andExpect(content().json(
+                        "{\"companyID\":1}"
+                ));
+    }
+
 }
