@@ -4,6 +4,12 @@ import com.tw.apistackbase.Repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class Company {
+    @Autowired
+    private EmployeeRepository employeeRepository;
+
+    private long companyID;
+
+    private String name;
 
     public long getCompanyID() {
         return companyID;
@@ -13,7 +19,6 @@ public class Company {
         this.companyID = companyID;
     }
 
-    private long companyID;
 
     public EmployeeRepository getEmployeeRepository() {
         return employeeRepository;
@@ -23,6 +28,12 @@ public class Company {
         this.employeeRepository = employeeRepository;
     }
 
-    @Autowired
-    private EmployeeRepository employeeRepository;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }

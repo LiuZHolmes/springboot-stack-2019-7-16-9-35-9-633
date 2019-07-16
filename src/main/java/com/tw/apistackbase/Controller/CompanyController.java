@@ -43,11 +43,11 @@ public class CompanyController {
         else throw new CompanyNotFoundException();
     }
 
-    @GetMapping("/companies?page={page}&pageSize={pageSize}" )
-    public List<Company> listCompaniesPageByPage(@PathVariable int page,@PathVariable int size) {
+    @GetMapping("/companies?page={page}&pageSize={pageSize}")
+    public List<Company> listCompaniesPageByPage(@PathVariable int page, @PathVariable int size) {
         return companyRepository.getCompanies()
                 .stream()
-                .skip((page - 1)*size)
+                .skip((page - 1) * size)
                 .limit(size).collect(Collectors.toList());
     }
 
@@ -57,5 +57,20 @@ public class CompanyController {
         company.setCompanyID(1);
         companyRepository.getCompanies().add(company);
         return company;
+    }
+
+    @PutMapping("/companies/{companyID}")
+    public Company updateCompany(@RequestBody Company newCompany, @PathVariable long companyID) throws CompanyNotFoundException {
+
+        Optional<Company> optionalCompany = companyRepository.getCompanies()
+                .stream()
+                .filter(x -> x.getCompanyID() == companyID)
+                .findFirst();
+        if (optionalCompany.isPresent()) {
+            Company company = optionalCompany.get();
+            company.setEmployeeRepository(newCompany.getEmployeeRepository());
+            company.setName(newCompany.getName());
+            return company;
+        } else throw new CompanyNotFoundException();
     }
 }

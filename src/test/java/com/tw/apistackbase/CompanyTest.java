@@ -10,17 +10,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(CompanyController.class)
@@ -112,10 +111,32 @@ public class CompanyTest {
         // given
 
         //when
-        mockMvc.perform(post("/companies").content("[]"))
+        mockMvc.perform(post("/companies")
+                .content("[]"))
                 // then
                 .andExpect(content().json(
                         "{\"companyID\":1}"
+                ));
+    }
+
+    @Test
+    public void should_return_a_company_when_update_it() throws Exception {
+        // given
+        List<Company> companies = new ArrayList<>();
+        Company company = new Company();
+        company.setCompanyID(1);
+        companies.add(company);
+        when(companyRepository.getCompanies()).thenReturn(companies);
+        //when
+        mockMvc.perform(put("/companies/1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\n" +
+                "\t\"name\" : \"company1\"\n" +
+                "}"))
+                // then
+                .andExpect(content().json(
+                        "{\"companyID\": 1,\n" +
+                                "    \"name\": \"company1\"}"
                 ));
     }
 }
