@@ -16,6 +16,7 @@ import java.util.List;
 
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 
 @RunWith(SpringRunner.class)
@@ -89,6 +90,19 @@ public class EmployeeTest {
                 // then
                 .andExpect(content().json(
                         "[{\"employeeID\":1}]"
+                ));
+    }
+
+    @Test
+    public void should_return_a_employee_when_post_a_employee() throws Exception {
+        // given
+
+        //when
+        mockMvc.perform(post("/employees")
+                .content("[]"))
+                // then
+                .andExpect(content().json(
+                        "{\"employeeID\":1}"
                 ));
     }
 }

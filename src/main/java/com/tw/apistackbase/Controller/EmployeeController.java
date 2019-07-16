@@ -4,9 +4,7 @@ import com.tw.apistackbase.Employee;
 import com.tw.apistackbase.Exception.EmployeeNotFoundException;
 import com.tw.apistackbase.Repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -46,5 +44,13 @@ public class EmployeeController {
                 .stream()
                 .filter(x -> x.getGender() == gender)
                 .collect(Collectors.toList());
+    }
+
+    @PostMapping("/employees")
+    public Employee createEmployee(@RequestBody String request) {
+        Employee employee = new Employee();
+        employee.setEmployeeID(1);
+        employeeRepository.getEmployees().add(employee);
+        return employee;
     }
 }
