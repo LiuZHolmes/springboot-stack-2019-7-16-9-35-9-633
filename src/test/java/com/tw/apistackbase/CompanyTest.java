@@ -129,7 +129,7 @@ public class CompanyTest {
 
     @Test
     public void should_return_a_company_when_update_it() throws Exception {
-        // given
+//        // given
         List<Company> companies = new ArrayList<>();
         Company company = new Company();
         company.setCompanyID(1);
@@ -139,11 +139,11 @@ public class CompanyTest {
         mockMvc.perform(put("/companies/1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\n" +
-                "\t\"companyName\" : \"huawei\"\n" +
+                "\t\"companyName\" : \"vivo\"\n" +
                 "}"))
                 // then
                 .andExpect(jsonPath("$.companyID").value("1"))
-                .andExpect(jsonPath("$.companyName").value("huawei")
+                .andExpect(jsonPath("$.companyName").value("vivo")
                 );
     }
 

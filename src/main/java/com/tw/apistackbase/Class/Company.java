@@ -2,10 +2,7 @@ package com.tw.apistackbase.Class;
 
 import com.tw.apistackbase.Repository.EmployeeRepository;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Transient;
+import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
@@ -18,6 +15,7 @@ public class Company {
     private String companyName;
     private int employeesNumber;
 
+    // @OneToMany(cascade = CascadeType.ALL)
     @Transient
     private EmployeeRepository employeeRepository;
 
