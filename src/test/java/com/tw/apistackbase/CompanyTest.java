@@ -139,13 +139,12 @@ public class CompanyTest {
         mockMvc.perform(put("/companies/1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\n" +
-                "\t\"name\" : \"company1\"\n" +
+                "\t\"companyName\" : \"huawei\"\n" +
                 "}"))
                 // then
-                .andExpect(content().json(
-                        "{\"companyID\": 1,\n" +
-                                "    \"name\": \"company1\"}"
-                ));
+                .andExpect(jsonPath("$.companyID").value("1"))
+                .andExpect(jsonPath("$.companyName").value("huawei")
+                );
     }
 
     @Test

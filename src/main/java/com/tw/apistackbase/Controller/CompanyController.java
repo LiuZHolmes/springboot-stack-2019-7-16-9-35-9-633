@@ -47,17 +47,16 @@ public class CompanyController {
     }
 
     @PostMapping("/companies")
-    public ResponseEntity createCompany(@RequestBody Company company) {
-        Company newCompany = companyRepository.save(company);
-        return ResponseEntity.ok(newCompany);
+    public ResponseEntity createCompany(@RequestBody Company newCompany) {
+        Company company = companyRepository.save(newCompany);
+        return ResponseEntity.ok(company);
     }
 
     @PutMapping("/companies/{companyID}")
-    public Company updateCompany(@RequestBody Company newCompany, @PathVariable long companyID) throws CompanyNotFoundException {
-
+    public Company updateCompany(@RequestBody Company newCompany, @PathVariable String companyID) throws CompanyNotFoundException {
         Optional<Company> optionalCompany = companyRepository.findAll()
                 .stream()
-                .filter(x -> x.getCompanyID() == companyID)
+                .filter(x -> x.getCompanyID() == Long.valueOf(companyID))
                 .findFirst();
         if (optionalCompany.isPresent()) {
             Company company = optionalCompany.get();
