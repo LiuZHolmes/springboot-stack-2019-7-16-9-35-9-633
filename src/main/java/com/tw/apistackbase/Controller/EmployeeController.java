@@ -1,6 +1,6 @@
 package com.tw.apistackbase.Controller;
 
-import com.tw.apistackbase.Employee;
+import com.tw.apistackbase.Class.Employee;
 import com.tw.apistackbase.Exception.EmployeeNotFoundException;
 import com.tw.apistackbase.Repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;

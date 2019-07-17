@@ -1,6 +1,6 @@
 package com.tw.apistackbase.Repository;
 
-import com.tw.apistackbase.Employee;
+import com.tw.apistackbase.Class.Employee;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;

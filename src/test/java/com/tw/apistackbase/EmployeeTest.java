@@ -1,6 +1,7 @@
 package com.tw.apistackbase;
 
 
+import com.tw.apistackbase.Class.Employee;
 import com.tw.apistackbase.Controller.EmployeeController;
 import com.tw.apistackbase.Repository.EmployeeRepository;
 import org.junit.Test;

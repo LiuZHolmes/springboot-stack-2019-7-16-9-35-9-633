@@ -1,12 +1,14 @@
 package com.tw.apistackbase;
 
 import com.tw.apistackbase.Class.Company;
+import com.tw.apistackbase.Class.Employee;
 import com.tw.apistackbase.Controller.CompanyController;
 import com.tw.apistackbase.Repository.CompanyRepository;
 import com.tw.apistackbase.Repository.EmployeeRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 
 import static org.mockito.Mockito.when;
@@ -14,6 +16,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -21,9 +24,12 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @RunWith(SpringRunner.class)
-@WebMvcTest(CompanyController.class)
+@SpringBootTest
+@AutoConfigureMockMvc
 public class CompanyTest {
 
     @Autowired
@@ -94,16 +100,19 @@ public class CompanyTest {
     @Test
     public void should_return_paged_company_list_when_get_companies_page_by_page() throws Exception {
         // given
-        List<Company> companies = new ArrayList<>();
-        Company company = new Company();
-        company.setCompanyID(1);
-        companies.add(company);
+        List<Company> companies = IntStream.rangeClosed(1,7).boxed().map(Company::new).collect(Collectors.toList());
         when(companyRepository.getCompanies()).thenReturn(companies);
         //when
         mockMvc.perform(get("/companies?page=1&pageSize=5"))
                 // then
                 .andExpect(content().json(
-                        "[{\"companyID\":1}]"
+                        "[" +
+                                "{\"companyID\":1}," +
+                                "{\"companyID\":2}," +
+                                "{\"companyID\":3}," +
+                                "{\"companyID\":4}," +
+                                "{\"companyID\":5}" +
+                                "]"
                 ));
     }
 

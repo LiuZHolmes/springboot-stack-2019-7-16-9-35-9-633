@@ -1,4 +1,4 @@
-package com.tw.apistackbase;
+package com.tw.apistackbase.Class;
 
 public class Employee {
     private long employeeID;

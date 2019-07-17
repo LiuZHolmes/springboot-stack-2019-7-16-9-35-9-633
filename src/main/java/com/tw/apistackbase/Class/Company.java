@@ -1,26 +1,32 @@
 package com.tw.apistackbase.Class;
 
 import com.tw.apistackbase.Repository.EmployeeRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 
 public class Company {
+
+    private String companyName;
+
+    private long companyID;
+
+    private int employeesNumber;
+
+    private EmployeeRepository employeeRepository;
+
+    public Company(long companyID) {
+        this.employeeRepository = new EmployeeRepository();
+        this.companyID = companyID;
+    }
 
     public Company() {
         this.employeeRepository = new EmployeeRepository();
     }
 
-    private EmployeeRepository employeeRepository;
-
-    private long companyID;
-
-    private String companyName;
 
     public int getEmployeesNumber() {
         employeesNumber = employeeRepository.getEmployees().size();
         return employeesNumber;
     }
 
-    private int employeesNumber;
 
     public long getCompanyID() {
         return companyID;
