@@ -19,15 +19,14 @@ import java.util.stream.IntStream;
 public class CompanyRepositoryTest {
 
     @Autowired
-    private
-    CompanyRepository companyRepository;
+    private CompanyRepository companyRepository;
 
     @Before
     public void setUp() {
         List<Company> companies = IntStream.rangeClosed(1, 2).boxed().map(x -> new Company()).collect(Collectors.toList());
         companyRepository.saveAll(companies);
-        companyRepository.getOne(Long.valueOf(1)).setCompanyName("huawei");
-        companyRepository.getOne(Long.valueOf(2)).setCompanyName("vivo");
+        companyRepository.getOne(1L).setCompanyName("huawei");
+        companyRepository.getOne(2L).setCompanyName("vivo");
     }
 
     @Test
@@ -45,14 +44,14 @@ public class CompanyRepositoryTest {
     }
 
     @Test
-    public void should_return_updated_company_when_update_its_name_by_id() {
+    public void should_update_company_when_update_its_name_by_id() {
         // given
 
         // when
-        companyRepository.updateCompanySetCompanyName("xiaomi", Long.valueOf(1));
+        companyRepository.updateCompanySetCompanyName("xiaomi", 1L);
 
         // then
-        Assertions.assertEquals("xiaomi",companyRepository.getOne(Long.valueOf(1)).getCompanyName());
+        Assertions.assertEquals("xiaomi",companyRepository.getOne(1L).getCompanyName());
 
     }
 }
