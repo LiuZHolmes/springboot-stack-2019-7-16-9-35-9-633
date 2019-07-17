@@ -2,6 +2,10 @@ package com.tw.apistackbase.Class;
 
 public class Employee {
     private long employeeID;
+    private String name;
+    private int age;
+    private String gender;
+    private int salary;
 
     public String getName() {
         return name;
@@ -26,11 +30,6 @@ public class Employee {
     public void setSalary(int salary) {
         this.salary = salary;
     }
-
-    private String name;
-    private int age;
-    private String gender;
-    private int salary;
 
     public long getEmployeeID() {
         return employeeID;

@@ -2,20 +2,12 @@ package com.tw.apistackbase;
 
 import com.tw.apistackbase.Class.Company;
 import com.tw.apistackbase.Class.Employee;
-import com.tw.apistackbase.Controller.CompanyController;
 import com.tw.apistackbase.Repository.CompanyRepository;
 import com.tw.apistackbase.Repository.EmployeeRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
@@ -26,6 +18,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -49,7 +45,7 @@ public class CompanyTest {
         Company company = new Company();
         company.setCompanyID(1);
         companies.add(company);
-        when(companyRepository.getCompanies()).thenReturn(companies);
+        when(companyRepository.findAll()).thenReturn(companies);
         //when
         mockMvc.perform(get("/companies"))
                 // then
@@ -65,7 +61,7 @@ public class CompanyTest {
         Company company = new Company();
         company.setCompanyID(1);
         companies.add(company);
-        when(companyRepository.getCompanies()).thenReturn(companies);
+        when(companyRepository.findAll()).thenReturn(companies);
         //when
         mockMvc.perform(get("/companies/1"))
                 // then
@@ -87,7 +83,7 @@ public class CompanyTest {
         companies.add(company);
         employees.add(employee);
 
-        when(companyRepository.getCompanies()).thenReturn(companies);
+        when(companyRepository.findAll()).thenReturn(companies);
         when(employeeRepository.getEmployees()).thenReturn(employees);
         //when
         mockMvc.perform(get("/companies/1/employees"))
@@ -101,7 +97,7 @@ public class CompanyTest {
     public void should_return_paged_company_list_when_get_companies_page_by_page() throws Exception {
         // given
         List<Company> companies = IntStream.rangeClosed(1,7).boxed().map(Company::new).collect(Collectors.toList());
-        when(companyRepository.getCompanies()).thenReturn(companies);
+        when(companyRepository.findAll()).thenReturn(companies);
         //when
         mockMvc.perform(get("/companies?page=1&pageSize=5"))
                 // then
@@ -119,14 +115,16 @@ public class CompanyTest {
     @Test
     public void should_return_a_company_when_post_a_company() throws Exception {
         // given
-
+        Company company = new Company();
+        company.setCompanyName("huawei");
+        when(companyRepository.save(company)).thenReturn(company);
         //when
         mockMvc.perform(post("/companies")
-                .content("[]"))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"companyName\":\"huawei\"}"))
                 // then
-                .andExpect(content().json(
-                        "{\"companyID\":1}"
-                ));
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.companyName").value("huawei"));
     }
 
     @Test
@@ -136,7 +134,7 @@ public class CompanyTest {
         Company company = new Company();
         company.setCompanyID(1);
         companies.add(company);
-        when(companyRepository.getCompanies()).thenReturn(companies);
+        when(companyRepository.findAll()).thenReturn(companies);
         //when
         mockMvc.perform(put("/companies/1")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -157,7 +155,7 @@ public class CompanyTest {
         Company company = new Company();
         company.setCompanyID(1);
         companies.add(company);
-        when(companyRepository.getCompanies()).thenReturn(companies);
+        when(companyRepository.findAll()).thenReturn(companies);
         //when
         mockMvc.perform(delete("/companies/1"))
                 // then

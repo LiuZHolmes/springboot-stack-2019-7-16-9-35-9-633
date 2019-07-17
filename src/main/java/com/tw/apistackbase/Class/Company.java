@@ -2,14 +2,23 @@ package com.tw.apistackbase.Class;
 
 import com.tw.apistackbase.Repository.EmployeeRepository;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Transient;
+import java.util.Objects;
+
+@Entity
 public class Company {
 
-    private String companyName;
 
+    @Id
+    @GeneratedValue
     private long companyID;
-
+    private String companyName;
     private int employeesNumber;
 
+    @Transient
     private EmployeeRepository employeeRepository;
 
     public Company(long companyID) {
@@ -45,12 +54,26 @@ public class Company {
         this.employeeRepository = employeeRepository;
     }
 
-
-    public String getName() {
+    public String getCompanyName() {
         return companyName;
     }
 
-    public void setName(String name) {
-        this.companyName = name;
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Company)) return false;
+        Company company = (Company) o;
+        return getCompanyID() == company.getCompanyID() &&
+                getEmployeesNumber() == company.getEmployeesNumber() &&
+                Objects.equals(getCompanyName(), company.getCompanyName());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getCompanyID(), getCompanyName(), getEmployeesNumber(), getEmployeeRepository());
     }
 }
