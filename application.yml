@@ -3,8 +3,13 @@
 spring:
   profiles:
     active: local
+  datasource:
+    url: jdbc:h2:./h2/test
   h2:
     console:
       enabled: true
+  jpa:
+    hibernate:
+      ddl-auto: update
 server:
   port : 8888
